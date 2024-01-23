@@ -145,11 +145,3 @@ python main.py --model CNN --task CIFAR10 --data-aug --channels 128 256 512 512 
 #BPTT Softmax
 python main.py --model CNN --task CIFAR10 --data-aug --channels 128 256 512 512 --kernels 3 3 3 3 --pools mmmm --strides 1 1 1 1 --paddings 1 1 1 0 --fc 10 --optim sgd --lrs 0.25 0.15 0.1 0.08 0.05 --wds 3e-4 3e-4 3e-4 3e-4 3e-4 --mmt 0.9 --lr-decay --epochs 120 --act my_hard_sig --todo attack --T1 250 --T2 25 --mbs 128 --alg BPTT --loss cel --softmax --save --device 0 --load-path /vast/home/smansingh/LaborieuxEP/Equilibrium-Propagation/results/BPTT/cel/2023-05-30/15-31-49_gpu0/
 ```
-## Comparing EP and BPTT
-
-EP updates approximates ground truth gradients computed by BPTT. To check if the theorem is satisfied set the `--todo` flag to `--todo 'gducheck'`. With the flag `--save` enabled, plots comparing EP (dashed) and BPTT (solid) updates for each layers will be created in the results folder.
-
-```
-python main.py --model 'CNN' --task 'CIFAR10' --data-aug --todo 'gducheck' --T1 250 --T2 15 --mbs 128 --thirdphase --betas 0.0 0.1 --loss 'mse' --save --device 0 --load-path 'results/test'
-```
-
