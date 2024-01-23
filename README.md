@@ -22,7 +22,7 @@ Make the following changes in ```art/estimators/classification/pytorch.py``` for
 | Line    | Original Code | Modification |Reason|
 | ----------- | ----------- |----------- |----------- |
 | 330     | ```with torch.no_grad() ```      |```#with torch.no_grad()```       |- Free phase iterations require gradient of $\Phi$ w.r.t. the current state i.e., $$s_{t+1}=\frac{\partial \Phi}{s_t}$$ - added options to have different timesteps for attacking and for predictions |
-|332|```output=model_outputs[-1]```|neurons = ```self._model(torch.from_numpy```<br>```(x_preprocessed[begin:end]).to(self._device),y, neurons, self.T1, 0.0,self._loss,check_thm=False)[-1]```| Use T1 free-phase iterations for obtaining predictions|
+|332|```output=model_outputs[-1]```|neurons = ```self._model(torch.from_numpy```<br>```(x_preprocessed[begin:end]).to(self._device),```<br>```y, neurons, self.T1, 0.0,self._loss,check_thm=False)[-1]```| Use T1 free-phase iterations for obtaining predictions|
 |333 | | ```self._model.zero_grad```| Avoid gradients being carried on to next computation|
 | 842  | ```output = model_outputs[-1]```      |```neurons = self._model(inputs_t, labels_t, neurons, self.T2, beta=0.0,criterion=self._loss,check_thm=False)[-1] ```   | allows for obtaining the outputs after T2 free-phase iterations, later used for attacking the model, by evaluating gradient of the loss|
 |1146|```def forward(self, x)```|```def forward(self, x, y, neurons, T, beta=0.0, criterion=torch.nn.MSELoss(reduction='none'), check_thm=False)```|Change model wrapper forward definition to accommodate options for different timesteps to be used for attacking and predictions|
