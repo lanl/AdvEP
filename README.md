@@ -1,12 +1,6 @@
 # Robustness of Equilibrium Propagation
+AdvEP provides the ability to attack models trained with the Equilibrium Propagation learning rules. The code included here offers a speed-up of 30% while training by implementing spatio-temporally local update rules compared to the code presented in [Scaling Equilibrium Propagation to Deep ConvNets by Drastically Reducing its Gradient Estimator Bias, Laborieux et. al., 2021](https://github.com/Laborieux-Axel/Equilibrium-Propagation). The attack code involves few changes made to the Adversarial Robustness Toolbox library, as listed below.
 
-Work in progress. 
-# Black box (square) attack instructions
-Attack Norm 100 actually attacks the model in the infinity norm (You can check that there's a silly line in the model_utils.py file, I'm not using any tricks )
-```
-    python main.py --model CNN --task CIFAR10 --data-aug --channels 128 256 512 512 --kernels 3 3 3 3 --pools mmmm --strides 1 1 1 1 --paddings 1 1 1 0 --fc 10 --optim sgd --lrs 0.25 0.15 0.1 0.08 0.05 --wds 3e-4 3e-4 3e-4 3e-4 3e-4 --mmt 0.9 --lr-decay --epochs 120 --act my_hard_sig --todo hsj-attack --T1 250 --T2 30 --mbs 128 --alg EP --thirdphase --betas 0.0 0.5 --loss cel --softmax --device 0 --save --seed 11 --attack-norm 100 --load-path /vast/home/smansingh/LaborieuxEP/Equilibrium-Propagation/results/EP/cel/2023-06-14/17-04-29_gpu0/
-
-```
 
 ## Setting up the environment
 
@@ -16,14 +10,12 @@ conda create --name EP python=3.6
 conda activate EP
 conda install -c conda-forge matplotlib
 conda install pytorch torchvision -c pytorch
+conda install adversarial-robustness-toolbox
 ```
 
 ## Adversarial Robustness Toolbox (ART) Package Changes
 
-Install the ART package using pip:
-```
-pip install adversarial-robustness-toolbox
-```
+
 
 Make the following changes in ```art/estimators/classification/pytorch.py``` for compatibility. Updated file ```pytorch.py``` is present in ```ART_Timesteps_Addition``` folder.
 
